@@ -1,0 +1,18 @@
+{
+  "name": "tw2panda-cli",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@base2/pretty-print-object": "^1.0.2",
+    "commander": "^11.0.0"
+  },
+  "devDependencies": {
+    "jest": "^29.6.1"
+  }
+}
