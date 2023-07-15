@@ -16,15 +16,19 @@ rl.on("line", (line) => {
   if (line.match(/(className|class)=/)) {
     const className = line.match(/(className|class)=["']([^"']+)["']/)[2];
     const { panda, explanation } = parse(className);
+
     const { context, explanation: contextExplanation } = getContext(panda);
     line = line.replace(
       new RegExp(`('${className}'|"${className}")`),
-      `{${context}(${prettyPrint(panda)
+      `{${context}(${prettyPrint(panda, {
+        singleQuotes: false,
+      })
         .replace(/\s+/g, " ")
         .replaceAll("\n", " ")})}`
     );
+
     if (program.getOptionValue("explain")) {
-      console.log("/*");
+      console.log("{/*");
       if (contextExplanation) {
         console.log(contextExplanation);
         console.log("");
@@ -32,8 +36,9 @@ rl.on("line", (line) => {
       for (const e of explanation) {
         console.log(`${e.className} => ${e.explanation}`);
       }
-      console.log(" */");
+      console.log(" */}");
     }
+
     console.log(line);
   } else {
     console.log(line);
