@@ -6,6 +6,7 @@
   "bin": {
     "tw2panda": "./bin/index.js"
   },
+  "repository": "github:jherr/tw2panda-cli",
   "scripts": {
     "test": "jest"
   },
