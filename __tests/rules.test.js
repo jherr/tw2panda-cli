@@ -12,38 +12,51 @@ const {
 
 describe("getContext", () => {
   test("flex", () => {
-    expect(getContext({ flex: { value: 1 } })).toEqual({
-      context: "hstack",
-      explanation:
-        "Used the hstack pattern for a flex box in the horizontal direction",
-    });
+    expect(getContext({ flex: 1 })).toEqual([
+      {
+        context: "hstack",
+        explanation:
+          "Used the hstack pattern for a flex box in the horizontal direction",
+        keys: ["justifyContent", "flexDir", "alignItems"],
+      },
+    ]);
   });
   test("flex column", () => {
-    expect(getContext({ flex: { value: 1 }, flexDirection: "column" })).toEqual(
+    expect(getContext({ flex: 1, flexDir: "column" })).toEqual([
       {
         context: "vstack",
         explanation:
           "Used the vstack pattern for a flex box in the vertical direction",
-      }
-    );
+        keys: ["justifyContent", "flexDir", "alignItems"],
+      },
+    ]);
   });
   test("grid", () => {
-    expect(getContext({ display: "grid" })).toEqual({
-      context: "grid",
-      explanation: "Used the grid pattern for a grid",
-    });
+    expect(getContext({ display: "grid" })).toEqual([
+      {
+        context: "grid",
+        explanation: "Used the grid pattern for a grid",
+        keys: ["gridCols", "colSpan"],
+      },
+    ]);
   });
   test("gridItem", () => {
-    expect(getContext({ colSpan: 1 })).toEqual({
-      context: "gridItem",
-      explanation: "Used the gridItem pattern for an item within a grid",
-    });
+    expect(getContext({ colSpan: 1 })).toEqual([
+      {
+        context: "gridItem",
+        explanation: "Used the gridItem pattern for an item within a grid",
+        keys: ["gridCols", "colSpan"],
+      },
+    ]);
   });
   test("p-2", () => {
-    expect(getContext({ p: 2 })).toEqual({
-      context: "css",
-      explanation: null,
-    });
+    expect(getContext({ p: 2 })).toEqual([
+      {
+        context: "css",
+        explanation: null,
+        keys: [],
+      },
+    ]);
   });
 });
 
@@ -58,7 +71,7 @@ describe("parse", () => {
     expect(
       parse("rounded bg-indigo-600 px-2 py-1 text-xs font-semibold").panda
     ).toEqual({
-      bg: "indigo:600",
+      bg: "indigo.600",
       fontSize: "xs",
       fontWeight: "semibold",
       px: 2,
@@ -69,10 +82,10 @@ describe("parse", () => {
   test("md:bg-indigo-600 sm:bg-indigo-100", () => {
     expect(parse("md:bg-indigo-600 sm:bg-indigo-100").panda).toEqual({
       md: {
-        bg: "indigo:600",
+        bg: "indigo.600",
       },
       sm: {
-        bg: "indigo:100",
+        bg: "indigo.100",
       },
     });
   });
@@ -125,7 +138,7 @@ describe("outline", () => {
   test("outline-indigo-600", () => {
     expect(outline("outline-indigo-600")).toEqual({
       attribute: "outlineColor",
-      value: "indigo:600",
+      value: "indigo.600",
       scope: null,
     });
   });
@@ -147,7 +160,7 @@ describe("rounded", () => {
     });
   });
   test("rounded-top-sm", () => {
-    expect(rounded("rounded-top-sm")).toEqual({
+    expect(rounded("rounded-t-sm")).toEqual({
       attribute: "roundedTop",
       value: "sm",
       scope: null,
@@ -173,7 +186,7 @@ describe("text", () => {
   test("text-indigo-500", () => {
     expect(text("text-indigo-500")).toEqual({
       attribute: "color",
-      value: "indigo:500",
+      value: "indigo.500",
       scope: null,
     });
   });
@@ -190,7 +203,7 @@ describe("colors", () => {
   test("bg-indigo-500", () => {
     expect(colors("bg-indigo-500")).toEqual({
       attribute: "bg",
-      value: "indigo:500",
+      value: "indigo.500",
       scope: null,
     });
   });
